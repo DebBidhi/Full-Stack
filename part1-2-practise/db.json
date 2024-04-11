@@ -1,0 +1,89 @@
+{
+  "notes": [
+    {
+      "id": "1",
+      "content": "HTML is easy",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "Browser can execute only JavaScript",
+      "important": true
+    },
+    {
+      "id": "3",
+      "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "id": "6df8",
+      "content": "try this",
+      "important": true
+    },
+    {
+      "id": "3e92",
+      "content": "4th entery",
+      "important": false
+    },
+    {
+      "id": "3132",
+      "content": "5th entery",
+      "important": true
+    },
+    {
+      "id": "5fd0",
+      "content": "Hello There how is everything going.....",
+      "important": true
+    },
+    {
+      "id": "b8ce",
+      "content": "Hello there",
+      "important": false
+    },
+    {
+      "id": "9375",
+      "content": "chcek if its refreshing as intended",
+      "important": true
+    },
+    {
+      "id": "6a90",
+      "content": "test3",
+      "important": false
+    },
+    {
+      "id": "23bd",
+      "content": "test4",
+      "important": false
+    },
+    {
+      "id": "e9ff",
+      "content": "t5",
+      "important": true
+    },
+    {
+      "id": "4614",
+      "content": "now??",
+      "important": true
+    },
+    {
+      "id": "66a3",
+      "content": "brave input",
+      "important": false
+    },
+    {
+      "id": "5338",
+      "content": "is this the problem?",
+      "important": true
+    },
+    {
+      "id": "53b3",
+      "content": "/",
+      "important": true
+    },
+    {
+      "id": "9ede",
+      "content": "fixed the problem?",
+      "important": false
+    }
+  ]
+}
