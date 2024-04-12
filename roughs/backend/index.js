@@ -1,49 +1,48 @@
 const express = require('express')
 const app = express()
-// app.use(express.json())
+app.use(express.json())
+var morgan=require('morgan')
 
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
+morgan.token("data", (request) => {
+  return request.method === "POST" ? JSON.stringify(request.body) : " ";
+});
+
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms :data")
+);
+
+// //for crosss site 
+const cors = require('cors')
+app.use(cors())//allow all
+app.use(express.static('dist'))//** */
+
+const Note = require('./models/note')
+
+// const mongoose = require('mongoose')
+
+// const password = process.argv[2]
 
 
-
-app.use(requestLogger)
-
-// const unknownEndpoint = (request, response) => {
-//   response.status(404).send({ error: 'unknown endpoint' })
-// }
-
-// app.use(unknownEndpoint)
-
-let notes = [
-    {
-      id: 1,
-      content: "HTML is easy",
-      important: true
-    },
-    {
-      id: 2,
-      content: "Browser can execute only JavaScript",
-      important: false
-    },
-    {
-      id: 3,
-      content: "GET and POST are the most important methods of HTTP protocol",
-      important: true
-    }
-  ]
-
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World! Bidhideb Ghosh</h1>')
-})
+// const url =`mongodb+srv://startupver001:${password}@cluster0.y4ukach.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+// mongoose.set('strictQuery',false)
+// mongoose.connect(url)
+// const noteSchema = new mongoose.Schema({
+//   content: String,
+//   important: Boolean,
+// })
+// noteSchema.set('toJSON', {
+//   transform: (document, returnedObject) => {
+//     returnedObject.id = returnedObject._id.toString()
+//     delete returnedObject._id
+//     delete returnedObject.__v
+//   }
+// })
+// const Note = mongoose.model('Note', noteSchema)
 
 app.get('/api/notes', (req, res) => {
+    Note.find({}).then(notes => {
     res.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -93,10 +92,11 @@ app.post('/api/notes', (request, response) => {
   response.json(note)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+
 
 // app.post('/api/notes', (request, response) => {
 //   console.log(request.headers)
