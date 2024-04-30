@@ -39,11 +39,16 @@ Content-Type: application/json
 ### token post
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ldyB1c2VybmFtZTIiLCJpZCI6IjY2MzEwYzc0ZDgzMDk4Y2FhOTZhNDhjZiIsImlhdCI6MTcxNDQ5MTUxNX0.mIaUPrvEwSvNaLKb0WWvG-bFqu65gvg-7yPGY8cl6xY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ldyB1c2VybmFtZTIiLCJpZCI6IjY2MzEwYzc0ZDgzMDk4Y2FhOTZhNDhjZiIsImlhdCI6MTcxNDQ5NDc4NCwiZXhwIjoxNzE0NDk4Mzg0fQ.HLPzE09BnTANJ8gecPR9nMzSkOzgXYm1Zkcei5xNwJA
+                        
 {
-    "title": "new blog by user2 after login",
+    "title": "after login and token middleware 3",
     "author": "new author2 ",
     "url": "http://newurl.com",
     "likes": 100,
     "userId":"66310c74d83098caa96a48cf"
 }
+
+### delete
+DELETE http://localhost:3001/api/blogs/66311d4be61c857906cb530d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ldyB1c2VybmFtZTIiLCJpZCI6IjY2MzEwYzc0ZDgzMDk4Y2FhOTZhNDhjZiIsImlhdCI6MTcxNDQ5NDc4NCwiZXhwIjoxNzE0NDk4Mzg0fQ.HLPzE09BnTANJ8gecPR9nMzSkOzgXYm1Zkcei5xNwJA

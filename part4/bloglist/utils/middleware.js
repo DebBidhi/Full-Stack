@@ -37,30 +37,39 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
-const tokenExtractor = (request, response, next) => {
-  const authorization = request.get('authorization');
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    request.token = authorization.substring(7); // remove 'bearer ' from the token
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '')
+  }
+  return null
+}
+
+const userExtractor = async (request, response, next) => {
+  const token = getTokenFrom(request);
+  if (!token) {
+    return response.status(401).json({ error: 'token missimg' })
   }
 
-  next()
-}
-const userExtractor = async (request, response, next) => {
-  const token = request.token;
-  if (token) {
-    const decodedToken = jwt.verify(token, process.env.SECRET);
-    if (decodedToken.id) {
-      const user = await User.findById(decodedToken.id);
-      request.user = user;
-    }
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
   }
-  next();
+
+  const user = await User.findById(decodedToken.id)
+
+  if (!user) {
+    return response.status(401).json({ error: 'user not found' })
+  }
+
+  request.user = user
+
+  next()
 };
 
 module.exports = {
   requestLogger,
   unknownEndpoint,
   errorHandler,
-  tokenExtractor,
   userExtractor
 };

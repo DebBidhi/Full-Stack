@@ -1,5 +1,8 @@
 const blogsrouter = require('express').Router();
 const Blog = require('../models/blog');
+const jwt = require('jsonwebtoken')
+const User = require('../models/user')
+const userExtractor = require('../utils/middleware').userExtractor
 
 blogsrouter.get('/', async(request, response) => {
   const blogs= await Blog
@@ -9,22 +12,24 @@ blogsrouter.get('/', async(request, response) => {
 })
 
 
-blogsrouter.post('/', async(request, response,next) => {
-  const body = request.body
+blogsrouter.post('/',userExtractor, async(request, response,next) => {
+  const blog = new Blog(request.body)
   const user = request.user
+  if (!user ) {
+    return response.status(403).json({ error: 'user missing' })
+  }  
+  if (!blog.title || !blog.url ) {
+    return response.status(400).json({ error: 'title or url missing' })
+  } 
+  blog.likes = blog.likes | 0
+  blog.user = user
+  user.blogs = user.blogs.concat(blog._id)
 
-  const blog = new Blog({
-		title: body.title,
-		author: body.author,
-		url: body.url,
-		likes: body.likes? body.likes : 0,
-		user: user.id
-	})
+  await user.save()
 
-  const savedBlog = await blog.save() 
-  user.blogs = user.blogs.concat(savedBlog._id)
-  await user.save()   
-	response.status(201).json(savedBlog)
+  const savedBlog = await blog.save()
+
+  response.status(201).json(savedBlog)
 
 })
 
@@ -37,20 +42,21 @@ blogsrouter.get('/:id', async (request, response) => {
   }
 })
 
-blogsrouter.delete('/:id', async (request, response, next) => {
+blogsrouter.delete('/:id', userExtractor,async (request, response, next) => {
   const user = request.user
   const blog = await Blog.findById(request.params.id)
 
   if (!blog) {
-    return response.status(404).json({ error: 'Blog not found' })
+    return response.status(204).end()
   }
 
-  if (blog.user.toString() === user.id.toString()) {
-    await Blog.findByIdAndDelete(request.params.id)
-    response.status(204).end()
-  } else {
+  if (blog.user.toString() !== user.id.toString()) {
     return response.status(401).json({ error: 'Unauthorized' })
   }
+  await blog.deleteOne()
+  user.blogs = user.blogs.filter(b => b._id.toString() !== blog._id.toString())
+  await user.save()
+  response.status(204).end()
 })
 
 blogsrouter.put('/:id', async (request, response,next) => {

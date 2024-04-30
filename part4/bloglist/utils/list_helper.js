@@ -1,60 +1,67 @@
 const dummy = (blogs) => {
-    return blogs.length === 0 ? 0 : 1;
-};
+  return 1
+}
 
 const totalLikes = (blogs) => {
-    return blogs.reduce((sum, blog) => sum + blog.likes, 0);
-};
+  return blogs.reduce((sum, blog) => sum + blog.likes, 0)
+}
 
 const favoriteBlog = (blogs) => {
-    const findMaxLikes = (max, blog) => {
-      return blog.likes > max.likes ? blog : max;
-    };
-  
-    return blogs.reduce(findMaxLikes, { likes: -Infinity });
-  };
-  
-const mostBlogs = (blogs) => {
-    const authorBlogs = {};
-    blogs.forEach((blog) => {
-        if (authorBlogs[blog.author]) {
-          authorBlogs[blog.author].blogs++;
-        } else {
-          authorBlogs[blog.author] = { author: blog.author, blogs: 1 };
-        }
-      });
-  
-    const result = Object.entries(authorBlogs).reduce((prev, curr) => {
-        return curr[1].blogs > prev[1].blogs ? curr : prev;
-    });
-
-  
-      return [{ author: result[0], blogs: result[1].blogs }];;
+  return blogs.reduce((max, blog) => max.likes > blog.likes ? max : blog, {});
 }
-  
+
+const mostBlogs = (blogs) => {
+  if (!blogs.length) {
+    return null
+  }
+
+  const authors = blogs.reduce((acc, blog) => {
+    acc[blog.author] = (acc[blog.author] || 0) + 1
+    return acc;
+  }, {});
+
+  let maxAuthor = Object.keys(authors)[0]
+
+  for (const author in authors) {
+    if (authors[author] > authors[maxAuthor]) {
+      maxAuthor = author
+    }
+  }
+
+  return {
+    author: maxAuthor,
+    blogs: authors[maxAuthor]
+  }
+}
 
 const mostLikes = (blogs) => {
-    const authorStats = {};
-    blogs.forEach((blog) => {
-        if (authorStats[blog.author]) {
-            authorStats[blog.author].blogs++;
-            authorStats[blog.author].likes += blog.likes;
-        } else {
-            authorStats[blog.author] = { author: blog.author, blogs: 1, likes: blog.likes };
-        }
-    });
+  if (!blogs.length) {
+    return null
+  }
 
-    const result = Object.entries(authorStats).reduce((prev, curr) => {
-        return curr[1].likes > prev[1].likes ? curr : prev;
-    });
+  const authors = blogs.reduce((acc, blog) => {
+    acc[blog.author] = (acc[blog.author] || 0) + blog.likes
+    return acc;
+  }, {});
 
-    return [{ author: result[0], likes: result[1].likes }];
+  let maxAuthor = Object.keys(authors)[0]
+
+  for (const author in authors) {
+    if (authors[author] > authors[maxAuthor]) {
+      maxAuthor = author
+    }
+  }
+
+  return {
+    author: maxAuthor,
+    likes: authors[maxAuthor]
+  }
 }
 
 module.exports = {
-    dummy,
-    totalLikes,
-    favoriteBlog,
-    mostBlogs,
-    mostLikes
-};
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
+}
