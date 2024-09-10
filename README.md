@@ -17,12 +17,7 @@ This extensive course covers:
 ## Repository Structure
 
 This repository is organized into parts, corresponding to the course structure:
-
-- **Part 0:** Fundamentals of Web apps
-- **Part 1:** Introduction to React
-- **Part 2:** Communicating with server
-- **Part 3:** Programming a server with NodeJS and Express
-- **Part 4:** Testing Express servers, user administration
+ Fundamentals of Web apps, Introduction to React, Communicating with server, Programming a server with NodeJS and Express, Testing Express servers, user administration etc
   
 ## Technologies Used
 
