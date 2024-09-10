@@ -13,11 +13,6 @@ This extensive course covers:
 - Testing, configuration, environment management, and deployment of web applications
 - Using MongoDB for storing application data
 - User authentication and authorization
-
-## Repository Structure
-
-This repository is organized into parts, corresponding to the course structure:
- Fundamentals of Web apps, Introduction to React, Communicating with server, Programming a server with NodeJS and Express, Testing Express servers, user administration etc
   
 ## Technologies Used
 
