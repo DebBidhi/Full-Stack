@@ -1,4 +1,4 @@
-# Full Stack with React - Comprehensive Full Stack Web Development Course
+# Full Stack with React - Comprehensive Full Stack Web Development
 
 This repository contains my work and progress through the **Full Stack with React**, a deep dive into modern web application development with JavaScript.
 The sole purpose of this was to get familiarized with **React**
